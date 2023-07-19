@@ -1,0 +1,77 @@
+# Config file for [Air](https://github.com/cosmtrek/air) in TOML format
+
+# Working directory
+# . or absolute path, please note that the directories following must be under root.
+root = "."
+tmp_dir = "tmp"
+
+[build]
+# Binary file yields from `cmd`.
+# Windows平台示例：bin = "./tmp/main.exe"
+bin = "./tmp/main"
+# Just plain old shell command. You could use `make` as well.
+# Windows平台示例: cmd = "go build -o ./tmp/main.exe ."
+cmd = "go build -o ./tmp/main ."
+# It's not necessary to trigger build each time file changes if it's too frequent.
+delay = 0 # ms
+# Ignore these filename extensions or directories.
+exclude_dir = ["node_modules", "assets", "tmp", "vendor", "frontend/node_modules", "public/uploads"]
+# Exclude files.
+exclude_file = []
+# Exclude specific regular expressions.
+exclude_regex = ["_test\\.go"]
+# Exclude unchanged files.
+exclude_unchanged = true
+# Follow symlink for directories
+follow_symlink = true
+# Customize binary, can setup environment variables when run your app, for example：GIN_MODE=release.
+full_bin = ""
+# Watch these directories if you specified.
+include_dir = []
+# Watch these files.
+include_file = []
+# Watch these filename extensions.
+include_ext = ["go", "tpl", "tmpl", "html", "gohtml", "env"]
+# kill 命令延迟
+kill_delay = "0s"
+# This log file places in your tmp_dir.
+log = "air.log"
+# Poll files for changes instead of using fsnotify.
+poll = false
+# Poll interval (defaults to the minimum interval of 500ms).
+poll_interval = 500 # ms
+# 在 kill 之前发送系统中断信号，windows 不支持此功能
+send_interrupt = false
+# Stop running old binary when build errors occur.
+stop_on_error = true
+# Send Interrupt signal before killing process (windows does not support this feature)
+send_interrupt = false
+# Delay after sending Interrupt signal
+kill_delay = 500 # ms
+# Rerun binary or not
+rerun = false
+# Delay after each executions
+rerun_delay = 500
+# Add additional arguments when running binary (bin/full_bin). Will run './tmp/main hello world'.
+args_bin = ["hello", "world"]
+
+[color]
+# Customize each part's color. If no color found, use the raw app log.
+main = "magenta"
+watcher = "cyan"
+build = "yellow"
+runner = "green"
+
+[log]
+# Show log time
+time = true
+# Only show main log (silences watcher, build, runner)
+main_only = false
+
+[misc]
+# Delete tmp directory on exit
+clean_on_exit = false
+
+[screen]
+clear_on_rebuild = true
+keep_scroll = true
