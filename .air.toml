@@ -40,14 +40,12 @@ log = "air.log"
 poll = false
 # Poll interval (defaults to the minimum interval of 500ms).
 poll_interval = 500 # ms
-# 在 kill 之前发送系统中断信号，windows 不支持此功能
+# Send Interrupt signal before killing process (windows does not support this feature)
 send_interrupt = false
 # Stop running old binary when build errors occur.
 stop_on_error = true
-# Send Interrupt signal before killing process (windows does not support this feature)
-send_interrupt = false
 # Delay after sending Interrupt signal
-kill_delay = 500 # ms
+# kill_delay = 500 # ms
 # Rerun binary or not
 rerun = false
 # Delay after each executions
