@@ -2,10 +2,10 @@ package middlewares
 
 import (
 	"net"
-	"net/http"
 	"net/http/httputil"
 	"os"
 	"server/pkg/logger"
+	"server/pkg/response"
 	"strings"
 	"time"
 
@@ -55,13 +55,7 @@ func Recovery() gin.HandlerFunc {
 				)
 
 				// 返回 500 状态码
-				c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
-					"status":  "fail",
-					"code":    http.StatusInternalServerError,
-					"message": "服务器内部错误，请稍后再试",
-					"data":    gin.H{},
-					"error":   gin.H{},
-				})
+				response.Abort500(c)
 			}
 		}()
 		c.Next()
