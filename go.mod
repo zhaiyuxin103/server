@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/gin-gonic/gin v1.9.1
+	github.com/golang-module/carbon/v2 v2.2.3
 	github.com/spf13/cast v1.5.1
 	github.com/spf13/viper v1.16.0
 	gorm.io/driver/mysql v1.5.1
