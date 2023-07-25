@@ -3,7 +3,10 @@ package auth
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/golang-module/carbon/v2"
+	"github.com/spf13/cast"
 	v1 "server/app/http/controllers/api/v1"
+	"server/app/models"
 	"server/app/models/user"
 	"server/app/requests"
 	"server/pkg/response"
@@ -39,4 +42,42 @@ func (sc *SignupController) IsEmailExist(c *gin.Context) {
 	response.Data(c, gin.H{
 		"exists": user.IsEmailExist(request.Email),
 	})
+}
+
+// SignupUsingPhone 使用手机和验证码进行注册
+func (sc *SignupController) SignupUsingPhone(c *gin.Context) {
+
+	// 1. 验证表单
+	request := requests.SignupUsingPhoneRequest{}
+	if ok := requests.Validate(c, &request, requests.SignupUsingPhone); !ok {
+		return
+	}
+
+	// 2. 验证成功，创建数据
+	_user := user.User{
+		LastName:     request.LastName,
+		FirstName:    request.FirstName,
+		LastKana:     request.LastKana,
+		FirstKana:    request.FirstKana,
+		Birthday:     carbon.Date{Carbon: carbon.Time2Carbon(request.Birthday).SetTimezone(carbon.PRC)},
+		AvatarID:     cast.ToUint64(request.AvatarID),
+		Gender:       request.Gender,
+		Email:        request.Email,
+		Phone:        request.Phone,
+		Password:     request.Password,
+		Introduction: request.Introduction,
+		CommonTimestampsField: models.CommonTimestampsField{
+			State: request.State,
+			Order: request.Order,
+		},
+	}
+	_user.Create()
+
+	if _user.ID > 0 {
+		response.CreatedJSON(c, gin.H{
+			"data": _user,
+		})
+	} else {
+		response.Abort500(c, "创建用户失败，请稍后尝试~")
+	}
 }

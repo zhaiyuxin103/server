@@ -4,6 +4,7 @@ package user
 import (
 	"github.com/golang-module/carbon/v2"
 	"server/app/models"
+	"server/pkg/database"
 )
 
 // User 用户模型
@@ -15,7 +16,7 @@ type User struct {
 	LastKana          string          `json:"last_kana"`
 	FirstKana         string          `json:"first_kana"`
 	Birthday          carbon.Date     `json:"birthday"`
-	AvatarID          uint            `json:"avatar_id"`
+	AvatarID          uint64          `json:"avatar_id"`
 	Gender            uint8           `json:"gender"`
 	Email             string          `json:"email"`
 	EmailVerifiedAt   carbon.DateTime `json:"email_verified_at"`
@@ -29,4 +30,9 @@ type User struct {
 	// Avatar image.Image `gorm:"foreignKey:avatar_id" json:"image"`
 
 	models.CommonTimestampsField
+}
+
+// Create 创建用户，通过 User.ID 来判断是否创建成功
+func (userModel *User) Create() {
+	database.DB.Create(&userModel)
 }
