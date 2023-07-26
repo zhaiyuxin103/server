@@ -9,6 +9,7 @@ require (
 	github.com/alibabacloud-go/tea-utils/v2 v2.0.3
 	github.com/aws/aws-sdk-go v1.44.306
 	github.com/gin-gonic/gin v1.9.1
+	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/golang-module/carbon/v2 v2.2.3
 	github.com/jordan-wright/email v4.0.1-0.20210109023952-943e75fe5223+incompatible
 	github.com/mojocn/base64Captcha v1.3.5

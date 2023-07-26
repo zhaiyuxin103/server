@@ -3,6 +3,7 @@ package app
 
 import (
 	"server/pkg/config"
+	"time"
 )
 
 func IsLocal() bool {
@@ -19,4 +20,10 @@ func IsTesting() bool {
 
 func IsStaging() bool {
 	return config.Get("app.env") == "staging"
+}
+
+// TimenowInTimezone 获取当前时间，支持时区
+func TimenowInTimezone() time.Time {
+	chinaTimezone, _ := time.LoadLocation(config.GetString("app.timezone"))
+	return time.Now().In(chinaTimezone)
 }

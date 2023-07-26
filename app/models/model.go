@@ -3,6 +3,7 @@ package models
 
 import (
 	"github.com/golang-module/carbon/v2"
+	"github.com/spf13/cast"
 	"gorm.io/gorm"
 )
 
@@ -18,4 +19,9 @@ type CommonTimestampsField struct {
 	CreatedAt carbon.DateTime `gorm:"column:created_at;type:timestamp;index;comment:创建时间" json:"created_at,omitempty"`
 	UpdatedAt carbon.DateTime `gorm:"column:updated_at;type:timestamp;index;comment:最后编辑时间" json:"updated_at,omitempty"`
 	DeletedAt gorm.DeletedAt  `gorm:"column:deleted_at;type:timestamp;index;comment:删除时间" json:"deleted_at,omitempty"`
+}
+
+// GetStringID 获取 ID 的字符串格式
+func (a BaseModel) GetStringID() string {
+	return cast.ToString(a.ID)
 }

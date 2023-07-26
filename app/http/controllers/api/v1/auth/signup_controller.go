@@ -9,6 +9,7 @@ import (
 	"server/app/models"
 	"server/app/models/user"
 	"server/app/requests"
+	"server/pkg/jwt"
 	"server/pkg/response"
 )
 
@@ -54,7 +55,7 @@ func (sc *SignupController) SignupUsingPhone(c *gin.Context) {
 	}
 
 	// 2. 验证成功，创建数据
-	_user := user.User{
+	userModel := user.User{
 		LastName:     request.LastName,
 		FirstName:    request.FirstName,
 		LastKana:     request.LastKana,
@@ -71,10 +72,16 @@ func (sc *SignupController) SignupUsingPhone(c *gin.Context) {
 			Order: request.Order,
 		},
 	}
-	_user.Create()
+	userModel.Create()
 
-	if _user.ID > 0 {
-		response.CreatedJSON(c, _user)
+	if userModel.ID > 0 {
+		accessToken := jwt.NewJWT().IssueToken(userModel)
+		response.CreatedJSON(c, gin.H{
+			"user":         userModel,
+			"token_type":   "Bearer",
+			"expires_in":   jwt.NewJWT().ExpireAtTime(),
+			"access_token": accessToken,
+		}, "注册成功！")
 	} else {
 		response.Abort500(c, "创建用户失败，请稍后尝试~")
 	}
@@ -110,7 +117,13 @@ func (sc *SignupController) SignupUsingEmail(c *gin.Context) {
 	userModel.Create()
 
 	if userModel.ID > 0 {
-		response.CreatedJSON(c, userModel)
+		accessToken := jwt.NewJWT().IssueToken(userModel)
+		response.CreatedJSON(c, gin.H{
+			"user":         userModel,
+			"token_type":   "Bearer",
+			"expires_in":   jwt.NewJWT().ExpireAtTime(),
+			"access_token": accessToken,
+		}, "注册成功！")
 	} else {
 		response.Abort500(c, "创建用户失败，请稍后尝试~")
 	}
