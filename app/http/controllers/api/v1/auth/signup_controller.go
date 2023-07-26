@@ -48,7 +48,7 @@ func (sc *SignupController) IsEmailExist(c *gin.Context) {
 func (sc *SignupController) SignupUsingPhone(c *gin.Context) {
 
 	// 1. 验证表单
-	request := requests.SignupUsingPhoneRequest{}
+	request := requests.SignupRequest{}
 	if ok := requests.Validate(c, &request, requests.SignupUsingPhone); !ok {
 		return
 	}
@@ -74,9 +74,43 @@ func (sc *SignupController) SignupUsingPhone(c *gin.Context) {
 	_user.Create()
 
 	if _user.ID > 0 {
-		response.CreatedJSON(c, gin.H{
-			"data": _user,
-		})
+		response.CreatedJSON(c, _user)
+	} else {
+		response.Abort500(c, "创建用户失败，请稍后尝试~")
+	}
+}
+
+// SignupUsingEmail 使用 Email + 验证码进行注册
+func (sc *SignupController) SignupUsingEmail(c *gin.Context) {
+
+	// 1. 验证表单
+	request := requests.SignupRequest{}
+	if ok := requests.Validate(c, &request, requests.SignupUsingEmail); !ok {
+		return
+	}
+
+	// 2. 验证成功，创建数据
+	userModel := user.User{
+		LastName:     request.LastName,
+		FirstName:    request.FirstName,
+		LastKana:     request.LastKana,
+		FirstKana:    request.FirstKana,
+		Birthday:     carbon.Date{Carbon: carbon.Time2Carbon(request.Birthday).SetTimezone(carbon.PRC)},
+		AvatarID:     cast.ToUint64(request.AvatarID),
+		Gender:       request.Gender,
+		Email:        request.Email,
+		Phone:        request.Phone,
+		Password:     request.Password,
+		Introduction: request.Introduction,
+		CommonTimestampsField: models.CommonTimestampsField{
+			State: request.State,
+			Order: request.Order,
+		},
+	}
+	userModel.Create()
+
+	if userModel.ID > 0 {
+		response.CreatedJSON(c, userModel)
 	} else {
 		response.Abort500(c, "创建用户失败，请稍后尝试~")
 	}
