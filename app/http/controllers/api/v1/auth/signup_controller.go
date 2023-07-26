@@ -79,7 +79,7 @@ func (sc *SignupController) SignupUsingPhone(c *gin.Context) {
 		response.CreatedJSON(c, gin.H{
 			"user":         userModel,
 			"token_type":   "Bearer",
-			"expires_in":   jwt.NewJWT().ExpireAtTime(),
+			"expires_in":   jwt.NewJWT().ExpireAtTime().Unix(),
 			"access_token": accessToken,
 		}, "注册成功！")
 	} else {
@@ -121,7 +121,7 @@ func (sc *SignupController) SignupUsingEmail(c *gin.Context) {
 		response.CreatedJSON(c, gin.H{
 			"user":         userModel,
 			"token_type":   "Bearer",
-			"expires_in":   jwt.NewJWT().ExpireAtTime(),
+			"expires_in":   jwt.NewJWT().ExpireAtTime().Unix(),
 			"access_token": accessToken,
 		}, "注册成功！")
 	} else {
