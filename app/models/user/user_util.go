@@ -29,7 +29,6 @@ func GetByMulti(username string) (userModel User) {
 	database.DB.
 		Where("phone = ?", username).
 		Or("email = ?", username).
-		Or("name = ?", username).
 		First(&userModel)
 	return
 }
