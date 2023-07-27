@@ -64,3 +64,19 @@ func (lc *LoginController) LoginByPassword(c *gin.Context) {
 		}, "登录成功！")
 	}
 }
+
+// RefreshToken 刷新 Access Token
+func (lc *LoginController) RefreshToken(c *gin.Context) {
+
+	accessToken, err := jwt.NewJWT().RefreshToken(c)
+
+	if err != nil {
+		response.Error(c, err, "令牌刷新失败")
+	} else {
+		response.Data(c, gin.H{
+			"token_type":   "Bearer",
+			"expires_in":   jwt.NewJWT().ExpireAtTime().Unix(),
+			"access_token": accessToken,
+		})
+	}
+}
