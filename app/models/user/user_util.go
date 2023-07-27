@@ -1,6 +1,7 @@
 package user
 
 import (
+	"gorm.io/gorm/clause"
 	"server/pkg/database"
 )
 
@@ -30,5 +31,15 @@ func GetByMulti(username string) (userModel User) {
 		Where("phone = ?", username).
 		Or("email = ?", username).
 		First(&userModel)
+	return
+}
+
+// Get 通过 ID 获取用户
+func Get(id string, loading bool) (user User) {
+	if loading {
+		database.DB.Preload(clause.Associations).Where("id", id).First(&user)
+	} else {
+		database.DB.Where("id", id).First(&user)
+	}
 	return
 }
