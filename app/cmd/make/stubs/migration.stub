@@ -1,0 +1,38 @@
+package migrations
+
+import (
+    "server/app/models"
+    "server/pkg/migrate"
+    "database/sql"
+    "gorm.io/gorm"
+)
+
+func init() {
+
+    type {{StructName}} struct {
+        models.BaseModel
+
+        Name     string `gorm:"column:name;type:varchar(255);not null;index;comment:姓名"`
+        Email    string `gorm:"column:email;type:varchar(255);index;default:null;comment:邮箱"`
+        Phone    string `gorm:"column:phone;type:varchar(20);index;default:null;comment:手机号"`
+        Password string `gorm:"column:password;type:varchar(255);comment:密码"`
+
+        models.CommonTimestampsField
+    }
+
+    up := func(migrator gorm.Migrator, DB *sql.DB) {
+        err := migrator.AutoMigrate(&{{StructName}}{})
+        if err != nil {
+            return
+        }
+    }
+
+    down := func(migrator gorm.Migrator, DB *sql.DB) {
+        err := migrator.DropTable(&{{StructName}}{})
+        if err != nil {
+            return
+        }
+    }
+
+    migrate.Add("{{FileName}}", up, down)
+}
