@@ -1,7 +1,7 @@
 package auth
 
 import (
-	v1 "server/app/http/controllers/api/v1"
+	"server/app/http/controllers/api"
 	"server/app/requests"
 	"server/pkg/auth"
 	"server/pkg/jwt"
@@ -12,7 +12,7 @@ import (
 
 // LoginController 用户控制器
 type LoginController struct {
-	v1.BaseAPIController
+	api.BaseController
 }
 
 // LoginByPhone 手机登录

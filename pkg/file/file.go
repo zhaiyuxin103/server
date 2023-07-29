@@ -21,3 +21,11 @@ func Exists(fileToCheck string) bool {
 	}
 	return true
 }
+
+func CreateDir(path string) error {
+	err := os.MkdirAll(path, os.ModePerm)
+	if err != nil {
+		return err
+	}
+	return nil
+}

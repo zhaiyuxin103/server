@@ -1,7 +1,7 @@
 package auth
 
 import (
-	v1 "server/app/http/controllers/api/v1"
+	"server/app/http/controllers/api"
 	"server/app/requests"
 	"server/pkg/captcha"
 	"server/pkg/logger"
@@ -13,7 +13,7 @@ import (
 
 // VerifyCodeController 用户控制器
 type VerifyCodeController struct {
-	v1.BaseAPIController
+	api.BaseController
 }
 
 // ShowCaptcha 显示图片验证码

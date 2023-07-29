@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang-module/carbon/v2"
 	"github.com/spf13/cast"
-	v1 "server/app/http/controllers/api/v1"
+	"server/app/http/controllers/api"
 	"server/app/models"
 	"server/app/models/user"
 	"server/app/requests"
@@ -15,7 +15,7 @@ import (
 
 // SignupController 注册控制器
 type SignupController struct {
-	v1.BaseAPIController
+	api.BaseController
 }
 
 // IsPhoneExist 检测手机号是否被注册

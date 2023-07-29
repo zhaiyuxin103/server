@@ -2,7 +2,7 @@
 package auth
 
 import (
-	v1 "server/app/http/controllers/api/v1"
+	"server/app/http/controllers/api"
 	"server/app/models/user"
 	"server/app/requests"
 	"server/pkg/response"
@@ -12,7 +12,7 @@ import (
 
 // PasswordController 用户控制器
 type PasswordController struct {
-	v1.BaseAPIController
+	api.BaseController
 }
 
 // ResetByPhone 使用手机和验证码重置密码
