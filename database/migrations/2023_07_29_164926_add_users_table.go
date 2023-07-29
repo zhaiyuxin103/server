@@ -23,7 +23,7 @@ func init() {
 		EmailVerifiedAt   string `gorm:"column:email_verified_at;type:datetime;default:null;comment:邮箱验证时间"`
 		Phone             string `gorm:"column:phone;type:varchar(20);index;default:null;comment:手机号"`
 		Password          string `gorm:"column:password;type:varchar(255);comment:密码"`
-		Introduction      string `gorm:"column:introduction;type:varchar(255);default:null;comment:自我介绍"`
+		Introduction      string `gorm:"column:introduction;type:text;default:null;comment:自我介绍"`
 		NotificationCount uint64 `gorm:"column:notification_count;type:bigint;not null;default:0;comment:通知数量"`
 		LastActivedAt     string `gorm:"column:last_actived_at;type:datetime;index;default:null;comment:最后活跃时间"`
 
