@@ -1,0 +1,28 @@
+package factories
+
+import (
+    "github.com/go-faker/faker/v4"
+    "github.com/golang-module/carbon/v2"
+    "github.com/spf13/cast"
+    "math/rand"
+    "server/app/models"
+    "server/app/models/user"
+    "server/pkg/helpers"
+)
+
+func Make{{StructNamePlural}}(count int) []{{PackageName}}.{{StructName}} {
+
+    var objs []{{PackageName}}.{{StructName}}
+
+    // 设置唯一性，如 {{StructName}} 模型的某个字段需要唯一，即可取消注释
+    // faker.SetGenerateUniqueValues(true)
+
+    for i := 0; i < count; i++ {
+        {{VariableName}}Model := {{PackageName}}.{{StructName}}{
+            FIXME()
+        }
+        objs = append(objs, {{VariableName}}Model)
+    }
+
+    return objs
+}
