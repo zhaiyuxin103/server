@@ -3,6 +3,7 @@ package routes
 
 import (
 	"net/http"
+	api "server/app/http/controllers/api/v1"
 	"server/app/http/controllers/api/v1/auth"
 	"server/app/http/middlewares"
 
@@ -66,6 +67,11 @@ func RegisterAPIRoutes(r *gin.Engine) {
 				pwc := new(auth.PasswordController)
 				authGroup.POST("/password-reset/using-phone", middlewares.GuestJWT(), pwc.ResetByPhone)
 				authGroup.POST("/password-reset/using-email", middlewares.GuestJWT(), pwc.ResetByEmail)
+
+				uc := new(api.UsersController)
+
+				// 获取当前用户
+				v1.GET("/user", middlewares.AuthJWT("api"), uc.CurrentUser)
 			}
 		}
 	}
