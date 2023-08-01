@@ -3,6 +3,7 @@ package v1
 import (
 	"server/app/http/controllers/api"
 	"server/app/models/user"
+	"server/app/requests"
 	"server/pkg/auth"
 	"server/pkg/response"
 
@@ -15,6 +16,11 @@ type UsersController struct {
 
 // Index 所有用户
 func (ctrl *UsersController) Index(c *gin.Context) {
+	request := requests.PaginationRequest{}
+	if ok := requests.Validate(c, &request, requests.Pagination); !ok {
+		return
+	}
+
 	data, pager := user.Paginate(c, 10)
 	response.Data(c, gin.H{
 		"data":  data,
