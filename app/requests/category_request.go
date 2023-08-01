@@ -44,3 +44,26 @@ func StoreCategory(data interface{}, c *gin.Context) map[string][]string {
 	}
 	return validate(data, rules, messages)
 }
+
+func UpdateCategory(data interface{}, c *gin.Context) map[string][]string {
+
+	id := c.Param("id")
+
+	rules := govalidator.MapData{
+		"name":        []string{"required", "min_cn:2", "max_cn:8", "not_exists:categories,name," + id},
+		"description": []string{"min_cn:3", "max_cn:255"},
+	}
+	messages := govalidator.MapData{
+		"name": []string{
+			"required:分类名称为必填项",
+			"min_cn:分类名称长度需至少 2 个字",
+			"max_cn:分类名称长度不能超过 8 个字",
+			"not_exists:分类名称已存在",
+		},
+		"description": []string{
+			"min_cn:分类描述长度需至少 3 个字",
+			"max_cn:分类描述长度不能超过 255 个字",
+		},
+	}
+	return validate(data, rules, messages)
+}
