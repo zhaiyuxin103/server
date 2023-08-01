@@ -16,6 +16,8 @@ type Category struct {
 	Path        string `json:"path,omitempty"`
 	Description string `json:"description,omitempty"`
 
+	Parent *Category `gorm:"foreignKey:parent_id" json:"parent,omitempty"`
+
 	models.CommonTimestampsField
 }
 
