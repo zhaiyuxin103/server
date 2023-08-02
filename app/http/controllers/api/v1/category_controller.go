@@ -15,6 +15,19 @@ type CategoriesController struct {
 	api.BaseController
 }
 
+func (ctrl *CategoriesController) Index(c *gin.Context) {
+	request := requests.PaginationRequest{}
+	if ok := requests.Validate(c, &request, requests.Pagination); !ok {
+		return
+	}
+
+	data, pager := category.Paginate(c, 10)
+	response.Data(c, gin.H{
+		"data":  data,
+		"pager": pager,
+	})
+}
+
 func (ctrl *CategoriesController) Store(c *gin.Context) {
 
 	request := requests.CategoryRequest{}
