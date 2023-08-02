@@ -81,3 +81,25 @@ func (ctrl *CategoriesController) Update(c *gin.Context) {
 		response.Abort500(c)
 	}
 }
+
+func (ctrl *CategoriesController) Delete(c *gin.Context) {
+
+	categoryModel := category.Get(c.Param("id"), false)
+	if categoryModel.ID == 0 {
+		response.Abort404(c)
+		return
+	}
+
+	if categoryModel.HasChildren() {
+		response.Fail(c, 422, "该分类下存在子分类，请先删除子分类~", gin.H{})
+		return
+	}
+
+	rowsAffected := categoryModel.Delete()
+	if rowsAffected > 0 {
+		response.Ok(c)
+		return
+	}
+
+	response.Abort500(c, "删除失败，请稍后尝试~")
+}

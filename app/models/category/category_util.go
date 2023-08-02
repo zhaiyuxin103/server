@@ -55,3 +55,10 @@ func Paginate(c *gin.Context, perPage int) (categories []Category, paging pagina
 	)
 	return
 }
+
+// HasChildren 检查是否含有子类目
+func (category *Category) HasChildren() bool {
+	var count int64
+	database.DB.Model(Category{}).Where("parent_id = ?", category.ID).Count(&count)
+	return count > 0
+}
