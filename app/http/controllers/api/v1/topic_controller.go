@@ -5,6 +5,7 @@ import (
 	"server/app/http/controllers/api"
 	"server/app/models"
 	"server/app/models/topic"
+	"server/app/policies"
 	"server/app/requests"
 	"server/pkg/auth"
 	"server/pkg/response"
@@ -47,6 +48,11 @@ func (ctrl *TopicsController) Update(c *gin.Context) {
 	topicModel := topic.Get(c.Param("id"), false)
 	if topicModel.ID == 0 {
 		response.Abort404(c)
+		return
+	}
+
+	if ok := policies.CanModifyTopic(c, topicModel); !ok {
+		response.Abort403(c)
 		return
 	}
 
