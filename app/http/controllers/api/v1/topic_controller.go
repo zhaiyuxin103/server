@@ -41,3 +41,36 @@ func (ctrl *TopicsController) Store(c *gin.Context) {
 		response.Abort500(c, "创建失败，请稍后尝试~")
 	}
 }
+
+func (ctrl *TopicsController) Update(c *gin.Context) {
+
+	topicModel := topic.Get(c.Param("id"), false)
+	if topicModel.ID == 0 {
+		response.Abort404(c)
+		return
+	}
+
+	request := requests.TopicRequest{}
+	if ok := requests.Validate(c, &request, requests.UpdateTopic); !ok {
+		return
+	}
+
+	if request.Title != "" {
+		topicModel.Title = request.Title
+	}
+	if request.SubTitle != "" {
+		topicModel.SubTitle = request.SubTitle
+	}
+	if request.CategoryID != "" {
+		topicModel.CategoryID = cast.ToUint64(request.CategoryID)
+	}
+	if request.Content != "" {
+		topicModel.Content = request.Content
+	}
+	rowsAffected := topicModel.Save()
+	if rowsAffected > 0 {
+		response.Data(c, topicModel)
+	} else {
+		response.Abort500(c, "更新失败，请稍后尝试~")
+	}
+}
