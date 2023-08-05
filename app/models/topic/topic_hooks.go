@@ -1,6 +1,16 @@
 package topic
 
-// func (topic *Topic) BeforeSave(tx *gorm.DB) (err error) {}
+import (
+	"gorm.io/gorm"
+	"server/pkg/helpers"
+)
+
+func (topic *Topic) BeforeSave(tx *gorm.DB) (err error) {
+
+	topic.Excerpt = helpers.MakeExcerpt(topic.Content)
+	return
+}
+
 // func (topic *Topic) BeforeCreate(tx *gorm.DB) (err error) {}
 // func (topic *Topic) AfterCreate(tx *gorm.DB) (err error) {}
 // func (topic *Topic) BeforeUpdate(tx *gorm.DB) (err error) {}

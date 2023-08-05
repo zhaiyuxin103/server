@@ -7,6 +7,8 @@ import (
 	"io"
 	mathrand "math/rand"
 	"reflect"
+	"regexp"
+	"strings"
 	"time"
 )
 
@@ -72,4 +74,35 @@ func RandomString(length int) string {
 		b[i] = letters[mathrand.Intn(len(letters))]
 	}
 	return string(b)
+}
+
+func MakeExcerpt(value string, length ...int) string {
+	excerpt := strings.TrimSpace(regexp.MustCompile(`\r\n|\r|\n+`).ReplaceAllString(StripTags(value), " "))
+	if len(length) > 0 {
+		return LimitString(excerpt, length[0])
+	}
+	return LimitString(excerpt, 20)
+}
+
+func StripTags(html string) string {
+	re := regexp.MustCompile(`<[^>]*>`)
+	return re.ReplaceAllString(html, "")
+}
+
+func LimitString(str string, length int) string {
+	if length < 0 {
+		return ""
+	}
+	runes := []rune(str)
+	if length >= len(runes) {
+		return str
+	}
+	count := 0
+	for i := range runes {
+		if count >= length {
+			return string(runes[:i])
+		}
+		count++
+	}
+	return string(runes)
 }

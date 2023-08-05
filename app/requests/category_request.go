@@ -17,9 +17,8 @@ type CategoryRequest struct {
 func StoreCategory(data interface{}, c *gin.Context) map[string][]string {
 
 	rules := govalidator.MapData{
-		"name": []string{"required", "min_cn:2", "max_cn:8", "not_exists:categories,name"},
-		// TODO: exists
-		"parent_id":    []string{"numeric"},
+		"name":         []string{"required", "min_cn:2", "max_cn:8", "not_exists:categories,name"},
+		"parent_id":    []string{"numeric", "exists:categories,id"},
 		"is_directory": []string{"bool"},
 		"description":  []string{"min_cn:3", "max_cn:255"},
 	}

@@ -21,7 +21,7 @@ func init() {
 		models.BaseModel
 
 		Title           string      `gorm:"column:title;type:varchar(255);not null;comment:标题"`
-		SubTitle        string      `gorm:"column:subtitle;type:varchar(255);default:null;comment:副标题"`
+		SubTitle        string      `gorm:"column:sub_title;type:varchar(255);default:null;comment:副标题"`
 		UserID          uint64      `gorm:"column:user_id;type:bigint(20) unsigned;not null;index;comment:用户 ID"`
 		CategoryID      uint64      `gorm:"column:category_id;type:bigint(20) unsigned;not null;index;comment:类目 ID"`
 		Content         string      `gorm:"column:content;type:text;not null;comment:内容"`
