@@ -8,6 +8,7 @@ import (
 	"server/app/policies"
 	"server/app/requests"
 	"server/pkg/auth"
+	"server/pkg/database"
 	"server/pkg/response"
 
 	"github.com/gin-gonic/gin"
@@ -54,6 +55,18 @@ func (ctrl *TopicsController) Store(c *gin.Context) {
 	} else {
 		response.Abort500(c, "创建失败，请稍后尝试~")
 	}
+}
+
+func (ctrl *TopicsController) Show(c *gin.Context) {
+	topicModel := topic.Get(c.Param("id"), true)
+
+	if topicModel.ID == 0 {
+		response.Abort404(c)
+		return
+	}
+
+	database.DB.Model(&topicModel).UpdateColumn("view_count", topicModel.ViewCount+1)
+	response.Data(c, topicModel)
 }
 
 func (ctrl *TopicsController) Update(c *gin.Context) {
