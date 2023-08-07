@@ -23,6 +23,7 @@ go.work
 tmp
 .env
 .env.*
+!.env.example
 server
 .history
 
