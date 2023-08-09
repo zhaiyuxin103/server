@@ -111,6 +111,13 @@ func RegisterAPIRoutes(r *gin.Engine) {
 			{
 				linksGroup.GET("", lsc.Index)
 			}
+
+			// 上传文件
+			fsc := new(api.FilesController)
+			filesGroup := v1.Group("/files")
+			{
+				filesGroup.POST("", middlewares.AuthJWT("api"), fsc.Store)
+			}
 		}
 	}
 }
