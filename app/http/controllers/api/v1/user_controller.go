@@ -2,6 +2,7 @@ package v1
 
 import (
 	"github.com/golang-module/carbon/v2"
+	"github.com/spf13/cast"
 	"server/app/http/controllers/api"
 	"server/app/models/user"
 	"server/app/requests"
@@ -154,4 +155,18 @@ func (ctrl *UsersController) UpdatePassword(c *gin.Context) {
 
 		response.Ok(c)
 	}
+}
+
+func (ctrl *UsersController) UpdateAvatar(c *gin.Context) {
+
+	request := requests.UserUpdateAvatarRequest{}
+	if ok := requests.Validate(c, &request, requests.UserUpdateAvatar); !ok {
+		return
+	}
+
+	currentUser := auth.CurrentUser(c)
+	currentUser.AvatarID = cast.ToUint64(request.AvatarID)
+	currentUser.Save()
+
+	response.Data(c, currentUser)
 }

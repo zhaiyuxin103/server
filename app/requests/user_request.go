@@ -43,6 +43,10 @@ type UserUpdatePasswordRequest struct {
 	PasswordConfirm string `valid:"password_confirm" json:"password_confirm,omitempty" form:"password_confirm"`
 }
 
+type UserUpdateAvatarRequest struct {
+	AvatarID string `valid:"avatar_id" json:"avatar_id" form:"avatar_id"`
+}
+
 func UpdateUser(data interface{}, c *gin.Context) map[string][]string {
 
 	// 查询用户名重复时，过滤掉当前用户 ID
@@ -208,4 +212,19 @@ func UserUpdatePassword(data interface{}, c *gin.Context) map[string][]string {
 	errs = validators.ValidatePasswordConfirm(_data.Password, _data.PasswordConfirm, errs)
 
 	return errs
+}
+
+func UserUpdateAvatar(data interface{}, c *gin.Context) map[string][]string {
+
+	rules := govalidator.MapData{
+		"avatar_id": []string{"required", "exists:files,id"},
+	}
+	messages := govalidator.MapData{
+		"avatar_id": []string{
+			"required:图片 ID 为必填项",
+			"exists:图片 ID 不存在",
+		},
+	}
+
+	return validate(data, rules, messages)
 }

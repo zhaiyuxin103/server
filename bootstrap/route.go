@@ -13,6 +13,8 @@ import (
 // SetupRoute 路由初始化
 func SetupRoute(router *gin.Engine) {
 
+	router.StaticFS("/avatars", http.Dir("./public/avatars"))
+
 	// 注册全局中间件
 	registerGlobalMiddleWare(router)
 
